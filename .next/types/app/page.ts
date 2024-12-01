@@ -1,4 +1,4 @@
-// File: /Users/samin/Projects/mians-org/financial-tracker/app/page.tsx
+// File: G:\MIANSIT\financial-tracker-web\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
