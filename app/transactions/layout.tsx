@@ -23,7 +23,7 @@ export default async function DashboardLayout({
             </a>
           </div>
           <div className='flex flex-1 items-center space-x-2 justify-between'>
-            {/* <DashboardNav /> */}
+            <DashboardNav />
             {/* <UserNav user={session.user} /> */}
           </div>
         </div>
