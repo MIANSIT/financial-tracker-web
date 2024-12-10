@@ -8,7 +8,8 @@ import {
   Users, 
   FileText, 
   CreditCard,
-  Settings
+  Settings,
+  UserPlus ,
 } from "lucide-react"
 
 const items = [
@@ -18,25 +19,32 @@ const items = [
     icon: LayoutDashboard,
   },
   {
-    title: "Clients",
-    href: "/dashboard/clients",
-    icon: Users,
+    title: "User",
+    href: "/users",
+    icon: UserPlus,
   },
   {
+    title: "Clients",
+    href: "/clients",
+    icon: Users,
+  },
+  
+  {
     title: "Projects",
-    href: "/dashboard/projects",
+    href: "/projects",
     icon: FileText,
   },
   {
     title: "Transactions",
-    href: "/dashboard/transactions",
+    href: "/transactions",
     icon: CreditCard,
   },
-  {
-    title: "Settings",
-    href: "/dashboard/settings",
-    icon: Settings,
-  },
+ 
+  // {
+  //   title: "Settings",
+  //   href: "/settings",
+  //   icon: Settings,
+  // },
 ]
 
 export function DashboardNav() {
