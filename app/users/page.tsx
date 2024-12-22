@@ -1,3 +1,4 @@
+"use client"
 import { CardSkeleton } from "@/components/dashboard/card-skeleton";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { UserInfo } from "@/components/user/user-info";
