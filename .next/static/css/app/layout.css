@@ -973,6 +973,15 @@ video {
 .w-px {
   width: 1px;
 }
+.w-24 {
+  width: 6rem;
+}
+.w-auto {
+  width: auto;
+}
+.w-\[10rem\] {
+  width: 10rem;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -1201,6 +1210,9 @@ video {
 .rounded-sm {
   border-radius: calc(var(--radius) - 4px);
 }
+.rounded {
+  border-radius: 0.25rem;
+}
 .rounded-t-\[10px\] {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -1257,6 +1269,14 @@ video {
 .border-transparent {
   border-color: transparent;
 }
+.border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
+}
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
 .border-l-transparent {
   border-left-color: transparent;
 }
@@ -1304,6 +1324,18 @@ video {
 }
 .bg-transparent {
   background-color: transparent;
+}
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+.bg-gray-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 .fill-current {
   fill: currentColor;
@@ -1385,6 +1417,18 @@ video {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -1429,6 +1473,18 @@ video {
 }
 .pt-6 {
   padding-top: 1.5rem;
+}
+.pb-0 {
+  padding-bottom: 0px;
+}
+.pb-0\.5 {
+  padding-bottom: 0.125rem;
+}
+.pb-1 {
+  padding-bottom: 0.25rem;
+}
+.pb-1\.5 {
+  padding-bottom: 0.375rem;
 }
 .text-left {
   text-align: left;
@@ -1547,6 +1603,14 @@ video {
 }
 .text-secondary-foreground {
   color: hsl(var(--secondary-foreground));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 .underline-offset-4 {
   text-underline-offset: 4px;
