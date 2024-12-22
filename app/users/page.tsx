@@ -12,7 +12,7 @@ export default function UserPage() {
     <DashboardShell>
     <div className="flex ">
       <button className="ml-auto border bg-black  text-muted-foreground px-4 py-2 rounded text-sm font-medium hover:text-primary ">
-        <UserPlus className=" text-gray-700 inline-block pb-1" /> {/* Icon */}
+        <UserPlus className=" text-muted-foreground inline-block pb-1" /> {/* Icon */}
         <span >Add User</span> {/* Text */}
       </button>
     </div>

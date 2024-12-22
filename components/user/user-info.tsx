@@ -6,8 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDate } from "@/lib/utils";
-
+import { EllipsisVertical } from 'lucide-react';
 const userinfo = [
   {
     id: "M0001",
@@ -69,6 +68,12 @@ export function UserInfo() {
                 <TableCell>{user.fullName}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phonenumber}</TableCell>
+                <TableCell>
+                  {/* Ellipsis Vertical Icon for options */}
+                  <button className="text-muted-foreground hover:text-primary">
+                    <EllipsisVertical />
+                  </button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
