@@ -87,13 +87,19 @@ export function UserInfo() {
                     >
                       <button
                         className="w-full px-4 py-2 text-sm text-left text-muted-foreground hover:text-primary"
-                        onClick={() => console.log("Edit", user.id)}
+                        onClick={() => {
+                            console.log("Edit", user.id);
+                            alert(`Edit: ${user.id}`);
+                          }}
                       >
                         Edit
                       </button>
                       <button
                         className="w-full px-4 py-2 text-sm text-left text-muted-foreground hover:text-red-600"
-                        onClick={() => console.log("Delete", user.id)}
+                        onClick={() => {
+                            console.log("Delete", user.id);
+                            alert(`Delete: ${user.id}`);
+                          }}
                       >
                         Delete
                       </button>
