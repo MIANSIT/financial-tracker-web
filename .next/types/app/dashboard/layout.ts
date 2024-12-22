@@ -1,4 +1,4 @@
-// File: G:\MIANSIT\financial-tracker-web\app\dashboard\layout.tsx
+// File: E:\Web\financial-tracker-web\app\dashboard\layout.tsx
 import * as entry from '../../../../app/dashboard/layout.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
