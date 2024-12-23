@@ -14,6 +14,7 @@ const userinfo = [
     id: "M0001",
     username: "shahnawroz",
     fullName: "Shah Nawrose",
+    role:"Super Admin",
     email: "nawrose.mians@gmail.com",
     phonenumber: "01761867763",
   },
@@ -21,6 +22,7 @@ const userinfo = [
     id: "M0002",
     username: "rafsanratul",
     fullName: "Rafsan Jani Ratul",
+    role:"Super Admin",
     email: "ratul.mains@gmail.com",
     phonenumber: "01833228622",
   },
@@ -28,16 +30,19 @@ const userinfo = [
     id: "M0003",
     username: "saminsharar",
     fullName: "Samin Sharar",
+    role:"Super Admin",
     email: "saminsharar2@gmail.com",
-    phonenumber: "017......",
+    phonenumber: "01761867763",
   },
   {
     id: "M0004",
-    username: "saminsharar",
-    fullName: "Samin Sharar",
+    username: "asifa",
+    fullName: "Asif Ahmed",
+    role:"Super Admin",
     email: "saminsharar2@gmail.com",
-    phonenumber: "017......",
+    phonenumber: "01761867763",
   },
+
 ];
 
 export function UserInfo() {
@@ -57,6 +62,7 @@ export function UserInfo() {
               <TableHead>ID</TableHead>
               <TableHead>Username</TableHead>
               <TableHead>Full Name</TableHead>
+              <TableHead>User Role</TableHead>
               <TableHead>Email Address</TableHead>
               <TableHead>Phone Number</TableHead>
               <TableHead>Action</TableHead>
@@ -68,6 +74,7 @@ export function UserInfo() {
                 <TableCell>{user.id}</TableCell>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.fullName}</TableCell>
+                <TableCell>{user.role}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phonenumber}</TableCell>
                 <TableCell>
@@ -81,8 +88,8 @@ export function UserInfo() {
                     <div
                       className={`absolute right-0 mt-2 w-32 bg-black border border-gray-300 rounded shadow-lg z-50 transition-all duration-300 ease-in-out transform ${
                         activeRow === user.id
-                          ? "opacity-100 scale-100"
-                          : "opacity-0 scale-95 pointer-events-none"
+                          ? "block scale-100"
+                          : "hidden scale-95 pointer-events-none"
                       }`}
                     >
                       <button

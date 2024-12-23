@@ -20,7 +20,7 @@ const items = [
   },
   {
     title: "User",
-    href: "/users",
+    href: "/dashboard/users",
     icon: UserPlus,
   },
   {
@@ -58,7 +58,7 @@ export function DashboardNav() {
           href={item.href}
           className={cn(
             "flex items-center text-sm font-medium transition-colors hover:text-primary",
-            pathname === item.href
+             pathname.includes(item.href)
               ? "text-primary"
               : "text-muted-foreground"
           )}
