@@ -11,7 +11,7 @@ export default function DashboardPage() {
   return (
     <DashboardShell>
      
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-4 ">
         <div className="col-span-4">
           <Suspense fallback={<CardSkeleton />}>
             <CreateUser />
