@@ -13,26 +13,48 @@ import {
   SelectTrigger,
   SelectContent,
   SelectItem,
-} from "@/components/ui/select"; // Update import paths as necessary
+} from "@/components/ui/select";
 
 type FormValues = {
-  name: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
+  phone: string;
   password: string;
-  role: string; // Added role field
+  confirmPassword: string;
+  role: string;
 };
 
 export default function CreateUser() {
+  const lastGeneratedId = 0;
+
+  // Generate the new ID by incrementing the last ID
+  const generateId = (lastId: number) => {
+    const newIdNumber = lastId + 1;
+    return `M${String(newIdNumber).padStart(4, "0")}`; // Ensures the ID is formatted as M0001, M0002, etc.
+  };
   const methods = useForm<FormValues>({
     defaultValues: {
-      name: "",
+      id: generateId(lastGeneratedId),
+      firstName: "",
+      lastName: "",
+      username: "",
       email: "",
+      phone: "",
       password: "",
+      confirmPassword: "",
       role: "", // Default value for role
     },
   });
 
   const onSubmit = async (data: FormValues) => {
+    if (data.password !== data.confirmPassword) {
+      // Handle password mismatch
+      alert("Passwords do not match");
+      return;
+    }
     console.log("Form Submitted:", data);
     // Add logic to handle form submission, e.g., API call.
   };
@@ -43,9 +65,22 @@ export default function CreateUser() {
         <h1 className="text-2xl font-bold text-center mb-6">Create User</h1>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <FormField
-              name="firstname"
+          <FormField
+              name="id"
               render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ID</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Auto-generated ID" readOnly />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="firstName"
+              render={({ field }) => (
+
                 <FormItem>
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
@@ -56,7 +91,7 @@ export default function CreateUser() {
               )}
             />
             <FormField
-              name="lastname"
+              name="lastName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Last Name</FormLabel>
@@ -116,12 +151,12 @@ export default function CreateUser() {
               )}
             />
             <FormField
-              name="confirmpassword"
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="Enter your Confirm password" />
+                    <Input {...field} type="password" placeholder="Confirm your password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -142,9 +177,9 @@ export default function CreateUser() {
                         <span>{field.value || "Select a role"}</span>
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="editor">Editor</SelectItem>
-                        <SelectItem value="viewer">Viewer</SelectItem>
+                        <SelectItem value="admin">Super Admin</SelectItem>
+                        <SelectItem value="editor">Admin</SelectItem>
+                       
                       </SelectContent>
                     </Select>
                   </FormControl>
