@@ -1,4 +1,6 @@
 import { useForm, FormProvider } from "react-hook-form";
+
+import { useEffect, useState } from "react"; // Import useEffect and useState
 import {
   Form,
   FormField,
@@ -28,13 +30,19 @@ type FormValues = {
 };
 
 export default function CreateUser() {
+  const [isClient, setIsClient] = useState(false); // State to check if on the client side
   const lastGeneratedId = 0;
+
+  useEffect(() => {
+    setIsClient(true); // Set to true when mounted on the client side
+  }, []);
 
   // Generate the new ID by incrementing the last ID
   const generateId = (lastId: number) => {
     const newIdNumber = lastId + 1;
     return `M${String(newIdNumber).padStart(4, "0")}`; // Ensures the ID is formatted as M0001, M0002, etc.
   };
+
   const methods = useForm<FormValues>({
     defaultValues: {
       id: generateId(lastGeneratedId),
@@ -49,15 +57,27 @@ export default function CreateUser() {
     },
   });
 
+ // Initialize useRouter for navigation
+
   const onSubmit = async (data: FormValues) => {
     if (data.password !== data.confirmPassword) {
       // Handle password mismatch
       alert("Passwords do not match");
       return;
     }
+
+    // Store form data in localStorage
+    localStorage.setItem("user", JSON.stringify(data));
+
     console.log("Form Submitted:", data);
-    // Add logic to handle form submission, e.g., API call.
+
+    // Redirect to /dashboard/users after successful form submission
+    
   };
+
+  if (!isClient) {
+    return null; // Avoid rendering if not client-side
+  }
 
   return (
     <div className="flex items-center justify-center">
@@ -65,7 +85,7 @@ export default function CreateUser() {
         <h1 className="text-2xl font-bold text-center mb-6">Create User</h1>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <FormField
+            <FormField
               name="id"
               render={({ field }) => (
                 <FormItem>
@@ -80,7 +100,6 @@ export default function CreateUser() {
             <FormField
               name="firstName"
               render={({ field }) => (
-
                 <FormItem>
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
@@ -179,7 +198,6 @@ export default function CreateUser() {
                       <SelectContent>
                         <SelectItem value="admin">Super Admin</SelectItem>
                         <SelectItem value="editor">Admin</SelectItem>
-                       
                       </SelectContent>
                     </Select>
                   </FormControl>
