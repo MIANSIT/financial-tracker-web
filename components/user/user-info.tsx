@@ -7,50 +7,38 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EllipsisVertical } from "lucide-react";
-import { useState } from "react";
-
-const userinfo = [
-  {
-    id: "M0001",
-    username: "shahnawroz",
-    fullName: "Shah Nawrose",
-    role:"Super Admin",
-    email: "nawrose.mians@gmail.com",
-    phonenumber: "01761867763",
-  },
-  {
-    id: "M0002",
-    username: "rafsanratul",
-    fullName: "Rafsan Jani Ratul",
-    role:"Super Admin",
-    email: "ratul.mains@gmail.com",
-    phonenumber: "01833228622",
-  },
-  {
-    id: "M0003",
-    username: "saminsharar",
-    fullName: "Samin Sharar",
-    role:"Super Admin",
-    email: "saminsharar2@gmail.com",
-    phonenumber: "01761867763",
-  },
-  {
-    id: "M0004",
-    username: "asifa",
-    fullName: "Asif Ahmed",
-    role:"Super Admin",
-    email: "saminsharar2@gmail.com",
-    phonenumber: "01761867763",
-  },
-
-];
+import { useState, useEffect } from "react";
 
 export function UserInfo() {
+  const [userInfo, setUserInfo] = useState<any[]>([]); // to store user data from localStorage
   const [activeRow, setActiveRow] = useState<string | null>(null);
 
   const toggleMenu = (id: string | null) => {
     setActiveRow(activeRow === id ? null : id);
   };
+
+  useEffect(() => {
+    // Fetch users from localStorage when component mounts
+    const storedUsers = localStorage.getItem("users");
+    
+    if (storedUsers) {
+      // Parse the stored data
+      const users = JSON.parse(storedUsers);
+      
+      // Map the data to match your desired structure (if needed)
+      const formattedUsers = users.map((user: any) => ({
+        id: user.id,
+        username: user.username,
+        fullName: `${user.firstName} ${user.lastName}`,
+        role: user.role,
+        email: user.email,
+        phonenumber: user.phone,
+      }));
+
+      setUserInfo(formattedUsers);
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   return (
     <div className="space-y-4">
       <div className="text-xl font-semibold">User Information</div>
@@ -69,7 +57,7 @@ export function UserInfo() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {userinfo.map((user) => (
+            {userInfo.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>{user.id}</TableCell>
                 <TableCell>{user.username}</TableCell>
