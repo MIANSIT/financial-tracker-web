@@ -29,13 +29,18 @@ type FormValues = {
   confirmPassword: string;
   role: string;
 };
-
-export default function CreateUser() {
+type CreateUserProps = {
+  onSuccess: () => void; // Callback for successful form submission
+};
+export default function CreateUser({ onSuccess }: CreateUserProps) {
   const [isClient, setIsClient] = useState(false);
-  const lastGeneratedId = 0;
+  const [lastGeneratedId, setLastGeneratedId] = useState(0);
 
   useEffect(() => {
     setIsClient(true);
+    // Load last ID from localStorage if available
+    const storedLastId = localStorage.getItem("lastGeneratedId");
+    setLastGeneratedId(storedLastId ? parseInt(storedLastId, 10) : 0);
   }, []);
 
   const generateId = (lastId: number) => {
@@ -63,7 +68,36 @@ export default function CreateUser() {
         throw new Error("Passwords do not match");
       }
 
-      localStorage.setItem("user", JSON.stringify(data));
+      // Get existing users from localStorage or initialize as an empty array
+      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+
+      if (!Array.isArray(existingUsers)) {
+        throw new Error("Invalid data in localStorage");
+      }
+
+      // Append the new user data to the array
+      existingUsers.push(data);
+
+      // Save the updated array back to localStorage
+      localStorage.setItem("users", JSON.stringify(existingUsers));
+
+      // Increment the last ID and save it to localStorage
+      const newLastId = lastGeneratedId + 1;
+      setLastGeneratedId(newLastId);
+      localStorage.setItem("lastGeneratedId", String(newLastId));
+
+      // Reset the form with the updated ID
+      methods.reset({
+        id: generateId(newLastId),
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        role: "",
+      });
 
       // Show success toast
       toast.success("User created successfully!", {
@@ -74,6 +108,7 @@ export default function CreateUser() {
         pauseOnHover: true,
         draggable: true,
       });
+      onSuccess();
     } catch (error: any) {
       // Show error toast
       toast.error(error.message || "Something went wrong!", {
