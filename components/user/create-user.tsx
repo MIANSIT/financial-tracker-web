@@ -29,18 +29,27 @@ type FormValues = {
   confirmPassword: string;
   role: string;
 };
+
 type CreateUserProps = {
   onSuccess: () => void; // Callback for successful form submission
 };
+
 export default function CreateUser({ onSuccess }: CreateUserProps) {
   const [isClient, setIsClient] = useState(false);
   const [lastGeneratedId, setLastGeneratedId] = useState(0);
 
   useEffect(() => {
     setIsClient(true);
-    // Load last ID from localStorage if available
-    const storedLastId = localStorage.getItem("lastGeneratedId");
-    setLastGeneratedId(storedLastId ? parseInt(storedLastId, 10) : 0);
+    // Load users from localStorage
+    const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
+
+    // Determine the last generated ID
+    if (Array.isArray(storedUsers) && storedUsers.length > 0) {
+      // Get the latest user ID (assuming format MXXXX)
+      const lastUserId = storedUsers[storedUsers.length - 1].id;
+      const lastIdNumber = parseInt(lastUserId.replace('M', ''), 10);
+      setLastGeneratedId(lastIdNumber);
+    }
   }, []);
 
   const generateId = (lastId: number) => {
@@ -50,7 +59,7 @@ export default function CreateUser({ onSuccess }: CreateUserProps) {
 
   const methods = useForm<FormValues>({
     defaultValues: {
-      id: generateId(lastGeneratedId),
+      id: generateId(lastGeneratedId), // Dynamically set default ID
       firstName: "",
       lastName: "",
       username: "",
@@ -61,6 +70,23 @@ export default function CreateUser({ onSuccess }: CreateUserProps) {
       role: "",
     },
   });
+
+  useEffect(() => {
+    if (lastGeneratedId > 0) {
+      // Reset the form with the updated ID after the state change
+      methods.reset({
+        id: generateId(lastGeneratedId),
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        role: "",
+      });
+    }
+  }, [lastGeneratedId, methods]); // Ensure the form resets when the ID changes
 
   const onSubmit = async (data: FormValues) => {
     try {
@@ -86,19 +112,6 @@ export default function CreateUser({ onSuccess }: CreateUserProps) {
       setLastGeneratedId(newLastId);
       localStorage.setItem("lastGeneratedId", String(newLastId));
 
-      // Reset the form with the updated ID
-      methods.reset({
-        id: generateId(newLastId),
-        firstName: "",
-        lastName: "",
-        username: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-        role: "",
-      });
-
       // Show success toast
       toast.success("User created successfully!", {
         position: "top-center",
@@ -108,6 +121,7 @@ export default function CreateUser({ onSuccess }: CreateUserProps) {
         pauseOnHover: true,
         draggable: true,
       });
+
       onSuccess();
     } catch (error: any) {
       // Show error toast
@@ -133,7 +147,7 @@ export default function CreateUser({ onSuccess }: CreateUserProps) {
         <h1 className="text-2xl font-bold text-center mb-6">Create User</h1>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <FormField
+          <FormField
               name="id"
               render={({ field }) => (
                 <FormItem>
