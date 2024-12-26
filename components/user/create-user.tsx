@@ -1,6 +1,7 @@
 import { useForm, FormProvider } from "react-hook-form";
-
-import { useEffect, useState } from "react"; // Import useEffect and useState
+import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Form,
   FormField,
@@ -30,17 +31,16 @@ type FormValues = {
 };
 
 export default function CreateUser() {
-  const [isClient, setIsClient] = useState(false); // State to check if on the client side
+  const [isClient, setIsClient] = useState(false);
   const lastGeneratedId = 0;
 
   useEffect(() => {
-    setIsClient(true); // Set to true when mounted on the client side
+    setIsClient(true);
   }, []);
 
-  // Generate the new ID by incrementing the last ID
   const generateId = (lastId: number) => {
     const newIdNumber = lastId + 1;
-    return `M${String(newIdNumber).padStart(4, "0")}`; // Ensures the ID is formatted as M0001, M0002, etc.
+    return `M${String(newIdNumber).padStart(4, "0")}`;
   };
 
   const methods = useForm<FormValues>({
@@ -53,34 +53,47 @@ export default function CreateUser() {
       phone: "",
       password: "",
       confirmPassword: "",
-      role: "", // Default value for role
+      role: "",
     },
   });
 
- // Initialize useRouter for navigation
-
   const onSubmit = async (data: FormValues) => {
-    if (data.password !== data.confirmPassword) {
-      // Handle password mismatch
-      alert("Passwords do not match");
-      return;
+    try {
+      if (data.password !== data.confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      localStorage.setItem("user", JSON.stringify(data));
+
+      // Show success toast
+      toast.success("User created successfully!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } catch (error: any) {
+      // Show error toast
+      toast.error(error.message || "Something went wrong!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
-
-    // Store form data in localStorage
-    localStorage.setItem("user", JSON.stringify(data));
-
-    console.log("Form Submitted:", data);
-
-    // Redirect to /dashboard/users after successful form submission
-    
   };
 
   if (!isClient) {
-    return null; // Avoid rendering if not client-side
+    return null;
   }
 
   return (
     <div className="flex items-center justify-center">
+      <ToastContainer />
       <div className="w-full max-w-md rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-center mb-6">Create User</h1>
         <Form {...methods}>
@@ -181,7 +194,6 @@ export default function CreateUser() {
                 </FormItem>
               )}
             />
-            {/* Role Select Field */}
             <FormField
               name="role"
               render={({ field }) => (
@@ -196,8 +208,8 @@ export default function CreateUser() {
                         <span>{field.value || "Select a role"}</span>
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="admin">Super Admin</SelectItem>
-                        <SelectItem value="editor">Admin</SelectItem>
+                        <SelectItem value="Super Admin">Super Admin</SelectItem>
+                        <SelectItem value="Admin">Admin</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
